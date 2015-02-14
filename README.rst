@@ -1,14 +1,14 @@
 metautils
 =========
 
-Utilities for writing and composing metaclasses for python 3 and 2.
+Utilities for writing and composing metaclasses.
 
-Metaclass Factory Model
+Metaclass Template Model
 -----------------------
 
-Why do we need or want to write metaclass factories.
+Why do we need or want to write metaclass templates.
 
-Consider the two example metaclasses.
+Consider the two metaclasses.
 
 .. code:: python
 
@@ -27,25 +27,25 @@ What would we do if we wanted to make a class that used *BOTH* of these
 metaclasses? Using a class that subclasses both ``AllLower`` and
 ``MethodCatcher`` does not work, what we want is a way to chain them.
 
-With the metaclass factory model, we could have written our metaclasses
+With the metaclass template model, we could have written our metaclasses
 as:
 
 .. code:: python
 
-    from metautils import parambase, withbase
+    from metautils import T, templated
 
-    class AllLower(parambase()):
-        @withbase
-        def __new__(mcls, name, bases, dict_, __base__):
+    class AllLower(T):
+        @templated
+        def __new__(mcls, name, bases, dict_, T_):
             dict_ = {k.lower(): v for k, v in dict_.items()}
-            return __base__.__new__(mcls, name, bases, dict_)
+            return T_.__new__(mcls, name, bases, dict_)
 
 
-    class MethodCatcher(parambase()):
-        @withbase
-        def __new__(mcls, name, bases, dict_, __base__):
+    class MethodCatcher(T):
+        @templated
+        def __new__(mcls, name, bases, dict_, T_):
             dict_['methods'] = [v for v in dict_.values() if callable(v)];
-            return __base__.__new__(mcls, name, bases, dict_)
+            return T_.__new__(mcls, name, bases, dict_)
 
 Now we can define classes that use *BOTH* of these metaclasses like so:
 
@@ -98,19 +98,18 @@ metaclass template.
    preprocessing (``None``).
 -  ``decorators``: An iterable of class decorators to apply to the newly
    constructed type. ``default``: ``()``.
--  ``cachesize``: For performance, metaclass factories will use a
+-  ``cachesize``: For performance, metaclass templates will use a
    ``lru_cache``. This is the size of the cache to hold. If this value
    is ``< 0``, then no cache will be used. ``default``: No maximum size
    (``None``).
 
-When you make a metaclass that subclasses the return of ``parambase``,
-the name of the class will be bound to a ``MetaClassFactory`` object
-instead of a ``type`` object.
+When you make a metaclass that subclasses ``T`` the name of the class will be
+bound to a ``MetaClassTemplate`` object instead of a ``type`` object.
 
-``MetaClassFactory``
+``MetaClassTemplate``
 --------------------
 
-A ``MetaClassFactory`` is a callable that takes a ``type`` object and
+A ``MetaClassTemplate`` is a callable that takes a ``type`` object and
 returns a new ``type`` object. It takes the following arguments:
 
 -  ``base``: A type object. ``default``: ``type``.
@@ -130,4 +129,4 @@ You can also use the compose function to do this:
 
     from metautils import compose
 
-    new_metaclass_factory = compose(m, n, p, q, ..., z)
+    new_metaclass_template = compose(m, n, p, q, ..., z)
