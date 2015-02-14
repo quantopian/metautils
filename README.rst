@@ -79,32 +79,6 @@ We can see that this applied the composition of the metaclasses.
 The order that the metaclasses are composed is explicit as they act as
 transformers over each other.
 
-``parambase``
--------------
-
-This function retuns base classes that will make your metaclass a
-metaclass template.
-
-``parambase`` takes the folling arguments:
-
--  ``transform``: A function to apply to the input base before
-   proceding. This function should take a ``type`` and return a new
-   ``type``. ``default``: Apply no transform function (``None``).
--  ``preprocess``: A function that takes the ``name, bases, dict_`` and
-   returns any modifications that you would like to make BEFORE
-   constructing the class object. This allows for conditional
-   definitions of the class dict. The ``bases`` passed at this step will
-   have the input paramater as ``bases[0]``. ``default``: Apply no
-   preprocessing (``None``).
--  ``decorators``: An iterable of class decorators to apply to the newly
-   constructed type. ``default``: ``()``.
--  ``cachesize``: For performance, metaclass templates will use a
-   ``lru_cache``. This is the size of the cache to hold. If this value
-   is ``< 0``, then no cache will be used. ``default``: No maximum size
-   (``None``).
-
-When you make a metaclass that subclasses ``T`` the name of the class will be
-bound to a ``MetaClassTemplate`` object instead of a ``type`` object.
 
 ``MetaClassTemplate``
 --------------------
