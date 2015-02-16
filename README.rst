@@ -3,10 +3,10 @@ metautils
 
 Utilities for writing and composing metaclasses.
 
-Metaclass Template Model
+Template Model
 -----------------------
 
-Why do we need or want to write metaclass templates.
+Why do we need or want to write class templates.
 
 Consider the two metaclasses.
 
@@ -27,7 +27,7 @@ What would we do if we wanted to make a class that used *BOTH* of these
 metaclasses? Using a class that subclasses both ``AllLower`` and
 ``MethodCatcher`` does not work, what we want is a way to chain them.
 
-With the metaclass template model, we could have written our metaclasses
+With the class template model, we could have written our metaclasses
 as:
 
 .. code:: python
@@ -80,10 +80,14 @@ The order that the metaclasses are composed is explicit as they act as
 transformers over each other.
 
 
-``MetaClassTemplate``
+``ClassTemplate``
 --------------------
 
-A ``MetaClassTemplate`` is a callable that takes a ``type`` object and
+While the previous example only showed metaclasses, you can use this for any
+class; however, it is most useful for metaclasses where having a compatible
+metaclass heirarchy is hierarchy is important.
+
+A ``ClassTemplate`` is a callable that takes a ``type`` object and
 returns a new ``type`` object. It takes the following arguments:
 
 -  ``base``: A type object. ``default``: ``type``.
@@ -95,7 +99,7 @@ e.g.:
 
 .. code:: python
 
-    new_metaclass = m(n,p(q(...z(type)...)))
+    new_class = m(n,p(q(...z(type)...)))
 
 You can also use the compose function to do this:
 
@@ -103,4 +107,4 @@ You can also use the compose function to do this:
 
     from metautils import compose
 
-    new_metaclass_template = compose(m, n, p, q, ..., z)
+    new_class_template = compose(m, n, p, q, ..., z)
