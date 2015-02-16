@@ -80,14 +80,14 @@ The order that the metaclasses are composed is explicit as they act as
 transformers over each other.
 
 
-``ClassTemplate``
+``Template``
 --------------------
 
 While the previous example only showed metaclasses, you can use this for any
 class; however, it is most useful for metaclasses where having a compatible
 metaclass heirarchy is hierarchy is important.
 
-A ``ClassTemplate`` is a callable that takes a ``type`` object and
+A ``Template`` is a callable that takes a ``type`` object and
 returns a new ``type`` object. It takes the following arguments:
 
 -  ``base``: A type object. ``default``: ``type``.

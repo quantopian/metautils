@@ -20,14 +20,14 @@ from metautils.compat import items, lru_cache
 from metautils.utils import compose
 
 
-class ClassTemplateBase(object):
+class TemplateBase(object):
     """
     A marker for `Template` types.
     """
     pass
 
 
-class _ClassTemplateMeta(type):
+class _TemplateMeta(type):
     """
     Constructs `ClassTemplate` objects from type specs.
     This is meta.
@@ -41,7 +41,7 @@ class _ClassTemplateMeta(type):
                 cachesize=None):
 
         template_param = bases[0]
-        if not isinstance(template_param, _ClassTemplateMeta):
+        if not isinstance(template_param, _TemplateMeta):
             raise TypeError('class template must subclass T')
 
         bases = bases[1:]
@@ -60,7 +60,7 @@ class _ClassTemplateMeta(type):
         preprocess = preprocess or (lambda *a: a)
         decorators = tuple(decorators)
 
-        class ClassTemplate(ClassTemplateBase):
+        class Template(TemplateBase):
             """
             A callable that takes a base metaclass and returns a new metaclass
             that is a composition of this metaclass template and a base
@@ -125,7 +125,7 @@ class _ClassTemplateMeta(type):
 
             __str__ = __repr__
 
-        return ClassTemplate()
+        return Template()
 
 
 class _TWithArgs(object):
@@ -143,7 +143,7 @@ def T_new(cls, **kwargs):
     """
     # We are using `type.__new__` so that we get a concrete class, not
     # a template.
-    return type.__new__(_ClassTemplateMeta, 'TWithArgs', (_TWithArgs,), {
+    return type.__new__(_TemplateMeta, 'TWithArgs', (_TWithArgs,), {
         '__doc__': 'A template parameter with arguments applied.',
         '__slots__': (),
         '_kwargs': kwargs,
@@ -152,7 +152,7 @@ def T_new(cls, **kwargs):
 
 # The template parameter. This uses `type.__new__` because we need a concrete
 # class here, not a template.
-T = type.__new__(_ClassTemplateMeta, 'T', (object,), {
+T = type.__new__(_TemplateMeta, 'T', (object,), {
     '__doc__': dedent(
         """
         A template parameter similar to c++ class templates.
