@@ -16,8 +16,7 @@ from functools import wraps
 from textwrap import dedent
 
 from metautils.box import methodbox
-from metautils.compat import items, lru_cache
-from metautils.utils import compose
+from metautils.compat import compose, items, lru_cache
 
 
 class TemplateBase(object):

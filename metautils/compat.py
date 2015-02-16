@@ -32,6 +32,18 @@ if PY2:
     def items(dict_):
         return dict_.iteritems()
 
+    def _apply_(a, b):
+        return b(a)
+
+    def compose(*args):
+        """
+        Compose functions.
+        """
+        def composed(base):
+            return reduce(_apply_, reversed(args), base)
+
+        return composed
+
 else:
     from functools import lru_cache, reduce
 
@@ -44,10 +56,23 @@ else:
     def items(dict_):
         return dict_.items()
 
+    def compose(*args, _apply_=lambda a, b: b(a)):
+        """
+        Compose functions.
+        """
+        # _apply_ is defined as a default argument so that we do not need to
+        # construct a new function everytime this is called, and so that
+        # we do not need to resolve the name out of the globals.
+        def composed(base):
+            return reduce(_apply_, reversed(args), base)
+
+        return composed
+
 
 __all__ = [
     'PY2',
     'PY3',
+    'compose',
     'items',
     'lru_cache',
     'qualname',
