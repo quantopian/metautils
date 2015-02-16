@@ -13,9 +13,9 @@ version_info = sys.version_info
 setup(
     name='metautils',
     version='0.1.0',
-    description='Utilities for working with metaclasses',
-    author='Joe Jevnik',
-    author_email='joe@quantopian.com',
+    description='Utilities for working with metaclasses.1',
+    author='Quantopian Inc.',
+    author_email='opensource@quantopian.com',
     packages=[
         'metautils',
     ],
@@ -26,11 +26,13 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Programming Language :: Python',
         'Operating System :: OS Independent',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python',
         'Topic :: Utilities',
     ],
-    url='https://github.com/llllllllll/metautils',
+    url='https://github.com/quantopian/metautils',
     install_requires=(
         'functools32',
     ) if version_info.major == 2 and version_info == 7 else (),
