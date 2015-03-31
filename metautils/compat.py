@@ -357,5 +357,5 @@ __all__ = [
     'lru_cache',
     'qualname',
     'reduce',
-    'with_metaclass',
+    'values',
 ]
