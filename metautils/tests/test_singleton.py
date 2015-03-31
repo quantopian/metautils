@@ -12,25 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from unittest import TestCase
+from metautils.compat import PY3
 
-from metautils import T
-from metautils.template import TemplateBase
-from metautils.compat import PY2
-
-
-class MetaFactoryTestCase(TestCase):
-    def test_create_template(self):
-        """
-        Tests that subclassing T returns a template.
-        """
-        class template(T):
-            pass
-
-        self.assertIsInstance(template, TemplateBase)
-
-
-if PY2:
-    from metautils.tests._test_template_py2 import Py2TestCase  # NOQA
-else:
-    from metautils.tests._test_template_py3 import Py3TestCase  # NOQA
+if PY3:
+    from metautils.tests._test_singleton_py3 import SingletonTestCase  # NOQA
