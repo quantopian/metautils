@@ -85,7 +85,7 @@ transformers over each other.
 
 While the previous example only showed metaclasses, you can use this for any
 class; however, it is most useful for metaclasses where having a compatible
-metaclass heirarchy is hierarchy is important.
+metaclass hierarchy is important.
 
 A ``Template`` is a callable that takes a ``type`` object and
 returns a new ``type`` object. It takes the following arguments:
