@@ -15,16 +15,16 @@
 import math
 import operator
 
-try:
-    reduce = reduce
-    PY2 = True
-except NameError:
-    PY2 = False
+from sys import version_info
 
+
+PY2 = version_info.major == 2
 PY3 = not PY2
 
 if PY2:
     from functools32 import lru_cache
+
+    reduce = reduce  # noqa
 
     def qualname(obj):
         """
@@ -58,12 +58,40 @@ def _apply(a, b):
     return b(a)
 
 
-def compose(*args):
+def _composed_doc(fs):
     """
-    Compose functions.
+    Generate a docstring for the composition of fs.
     """
-    def composed(base):
-        return reduce(_apply, reversed(args), base)
+    if not fs:
+        # Argument name for the docstring.
+        return 'n'
+
+    return '{f}({g})'.format(f=fs[0].__name__, g=_composed_doc(fs[1:]))
+
+
+def compose(*fs):
+    """
+    Compose functions together in order:
+
+    compose(f, g, h) = lambda n: f(g(h(n)))
+    """
+    # Pull the iterator out into a tuple so we can call `composed`
+    # more than once.
+    rs = tuple(reversed(fs))
+
+    def composed(n):
+        return reduce(lambda a, b: b(a), rs, n)
+
+    # Attempt to make the function look pretty with
+    # a fresh docstring and name.
+    try:
+        composed.__doc__ = 'lambda n: ' + _composed_doc(fs)
+    except AttributeError:
+        # One of our callables does not have a `__name__`, whatever.
+        pass
+    else:
+        # We already know that for all `f` in `fs`, there exists `f.__name__`
+        composed.__name__ = '_of_'.join(f.__name__ for f in fs)
 
     return composed
 
