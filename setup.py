@@ -13,7 +13,7 @@ version_info = sys.version_info
 setup(
     name='metautils',
     version='0.1.0',
-    description='Utilities for working with metaclasses.1',
+    description='Utilities for working with metaclasses.',
     author='Quantopian Inc.',
     author_email='opensource@quantopian.com',
     packages=[
@@ -29,6 +29,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python',
         'Topic :: Utilities',
     ],
