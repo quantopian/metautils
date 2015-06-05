@@ -12,7 +12,7 @@ version_info = sys.version_info
 
 setup(
     name='metautils',
-    version='0.1.0',
+    version='0.1.1',
     description='Utilities for working with metaclasses.',
     author='Quantopian Inc.',
     author_email='opensource@quantopian.com',
