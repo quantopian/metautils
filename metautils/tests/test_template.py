@@ -25,9 +25,11 @@ class MetaFactoryTestCase(TestCase):
         Tests that subclassing T returns a template.
         """
         class template(T):
+            """template doc"""
             pass
 
         self.assertIsInstance(template, TemplateBase)
+        self.assertEqual(template.__doc__, 'template doc')
 
 
 if PY2:
