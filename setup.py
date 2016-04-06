@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from distutils.core import setup
+from setuptools import setup, find_packages
 import sys
 
 long_description = ''
@@ -12,13 +12,11 @@ version_info = sys.version_info
 
 setup(
     name='metautils',
-    version='0.1.1',
+    version='0.1.2',
     description='Utilities for working with metaclasses.',
     author='Quantopian Inc.',
     author_email='opensource@quantopian.com',
-    packages=[
-        'metautils',
-    ],
+    packages=find_packages(),
     long_description=long_description,
     license='Apache 2.0',
     classifiers=[
@@ -34,7 +32,8 @@ setup(
         'Topic :: Utilities',
     ],
     url='https://github.com/quantopian/metautils',
-    install_requires=(
-        'functools32',
-    ) if version_info.major == 2 and version_info == 7 else (),
+    install_requires=['functools32'] if version_info.major == 2 else [],
+    extras_require={
+        'dev': ['nose==1.3.7'],
+    },
 )
