@@ -23,7 +23,6 @@ class TemplateBase(object):
     """
     A marker for `Template` types.
     """
-    pass
 
 
 class _TemplateMeta(type):
@@ -61,19 +60,40 @@ class _TemplateMeta(type):
 
         class Template(TemplateBase):
             """
-            A callable that takes a base metaclass and returns a new metaclass
-            that is a composition of this metaclass template and a base
-            metaclass.
+            A callable that takes a base class and returns a new class
+            that is a composition of this class template and a base class.
+
+            Parameters
+            ----------
+            base : type
+                The class to create a subclass of.
+
+            Returns
+            -------
+            subclass : type
+                A subclass of ``base`` with the body of this template.
             """
+            # Copy the docstring from the template if provided.
+            __doc__ = dict_.get('__doc__', __doc__)
             __slots__ = ()
 
             def __call__(self, base=type, adjust_name=True):
                 """
-                Constructs a new metaclass that is the composition of this
-                metaclass template and a base metaclass.
+                Constructs a new class that is the composition of this
+                class template and a base class.
 
-                If `adjust_name` is truthy, the name of the base class will be
-                prepended with the name of the new class.
+                Parameters
+                ----------
+                base : type, optional
+                    The class to create a subclass of.
+                adjust_name : bool, optional
+                    Should the name of the resulting subclass be adjusted
+                    to include the name of the base class.
+
+                Returns
+                -------
+                subclass : type
+                    A subclass of ``base`` with the body of this template.
                 """
                 dict_cpy = dict_.copy()  # We could potentially mutate this.
                 inner_bases = (base,) + bases
@@ -132,7 +152,6 @@ class _TWithArgs(object):
     Marker to indicate that this is a template argument that is holding the
     arguments.
     """
-    pass
 
 
 def T_new(cls, **kwargs):
@@ -227,4 +246,3 @@ class templated(methodbox):
     Marker to indicate that the method should be passed `T` under the
     name: `T_`
     """
-    pass
